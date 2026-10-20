@@ -14,6 +14,10 @@ COPY . .
 
 RUN javac java_backend/*.java
 
+ENV GOPARKING_PAYMENT_API_HOST=127.0.0.1
+ENV GOPARKING_PAYMENT_API_PORT=8765
+ENV GOPARKING_RAZORPAY_MODE=test
+
 EXPOSE 10000
 
-CMD ["sh", "-c", "cd java_backend && java ParkingServer & exec streamlit run app.py --server.port ${PORT:-10000} --server.address 0.0.0.0"]
+CMD ["sh", "-c", "cd /app/java_backend && java ParkingServer & python /app/payment_api.py & exec streamlit run /app/app.py --server.port ${PORT:-10000} --server.address 0.0.0.0"]
